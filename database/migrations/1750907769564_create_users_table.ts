@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       table.string('password').notNullable()
       table.decimal('balance', 12, 2).defaultTo(1000.0)
       table.boolean('is_active').defaultTo(true)
+      table.enum('role', ['user', 'admin']).defaultTo('user')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

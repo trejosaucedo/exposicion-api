@@ -17,7 +17,6 @@ router
   })
   .prefix('/api/auth')
   .use(middleware.auth())
-
 // Rutas de usuario (protegidas)
 router
   .group(() => {
@@ -30,18 +29,42 @@ router
   .prefix('/api/user')
   .use(middleware.auth())
 
+// Rutas públicas de partidos y apuestas
+router
+  .group(() => {
+    router.get('/matches', '#controllers/betting_controller.getMatches')
+    router.get('/matches/upcoming', '#controllers/betting_controller.getUpcomingMatches')
+    router.get('/matches/:id', '#controllers/betting_controller.getMatch')
+  })
+  .prefix('/api')
+
+// Rutas protegidas de apuestas
+router
+  .group(() => {
+    router.post('/bet-slips', '#controllers/betting_controller.createBetSlip')
+    router.get('/bet-slips', '#controllers/betting_controller.getUserBetSlips')
+    router.get('/bet-slips/:id', '#controllers/betting_controller.getBetSlip')
+  })
+  .prefix('/api')
+  .use(middleware.auth())
+
 // Rutas de administración
 router
   .group(() => {
+    // Gestión de usuarios
     router.get('/users', '#controllers/user_controller.getAllUsers')
     router.get('/users/:id', '#controllers/user_controller.getUserById')
     router.put('/users/:id', '#controllers/user_controller.updateUserById')
     router.put('/users/:id/balance', '#controllers/user_controller.updateUserBalance')
     router.put('/users/:id/toggle-status', '#controllers/user_controller.toggleUserStatus')
     router.delete('/users/:id', '#controllers/user_controller.deleteUser')
+
+    // Gestión de partidos
+    router.post('/matches', '#controllers/betting_controller.createMatch')
+    router.put('/matches/:id/finish', '#controllers/betting_controller.finishMatch')
   })
   .prefix('/api/admin')
-// .use([middleware.auth(), middleware.admin()]) descomentar cuando haga logica para admins
+  .use([middleware.auth(), middleware.admin()])
 
 // Ruta de prueba
 router.get('/api/health', async () => {

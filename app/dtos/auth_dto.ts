@@ -5,6 +5,7 @@ export const registerValidator = vine.compile(
     email: vine.string().email().trim(),
     fullName: vine.string().trim().minLength(2).maxLength(100),
     password: vine.string().minLength(8).maxLength(255),
+    role: vine.enum(['user']).optional(),
   })
 )
 
@@ -19,6 +20,7 @@ export interface RegisterDto {
   email: string
   fullName: string
   password: string
+  role?: 'user'
 }
 
 export interface LoginDto {
@@ -33,6 +35,7 @@ export interface AuthResponse {
     fullName: string
     balance: number
     isActive: boolean
+    role: 'user' | 'admin'
   }
   token: string
 }
@@ -40,4 +43,10 @@ export interface AuthResponse {
 export interface UpdateUserDto {
   email?: string
   fullName?: string
+}
+
+export interface TokenPayload {
+  userId: number
+  email: string
+  role: 'user' | 'admin'
 }

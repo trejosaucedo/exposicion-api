@@ -29,6 +29,7 @@ export class AuthService {
         fullName: user.fullName,
         balance: user.balance,
         isActive: user.isActive,
+        role: user.role,
       },
       token: token.value!.release(),
     }
@@ -64,6 +65,7 @@ export class AuthService {
         fullName: user.fullName,
         balance: user.balance,
         isActive: user.isActive,
+        role: user.role,
       },
       token: token.value!.release(),
     }
@@ -85,6 +87,7 @@ export class AuthService {
       fullName: user.fullName,
       balance: user.balance,
       isActive: user.isActive,
+      role: user.role,
     }
   }
 }

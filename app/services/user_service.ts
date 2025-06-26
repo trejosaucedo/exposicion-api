@@ -56,7 +56,7 @@ export class UserService {
       throw new Error('User not found')
     }
 
-    const newBalance = user.balance + amount
+    const newBalance = Number(user.balance) + Number(amount)
     const updatedUser = await this.userRepository.updateBalance(userId, newBalance)
 
     if (!updatedUser) {

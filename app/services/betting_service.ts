@@ -59,7 +59,7 @@ export class BettingService {
 
     // Verificar que todos los partidos existen y están disponibles para apostar
     const betsData = []
-    let totalOdds = data.type === 'parlay' ? 1 : 0
+    let totalOdds = data.type === 'multiple' ? 1 : 0
 
     for (const bet of data.bets) {
       const match = await this.matchRepository.findById(bet.matchId)
@@ -81,17 +81,17 @@ export class BettingService {
       })
 
       // Calcular momios totales
-      if (data.type === 'parlay') {
+      if (data.type === 'multiple') {
         totalOdds *= odds
       } else {
         totalOdds = odds // Para apuestas simples, solo hay un momio
       }
     }
 
-    const potentialWin = data.totalStake * totalOdds
+    const potentialPayout = data.totalStake * totalOdds
 
     // Crear el bet slip
-    const betSlip = await this.betSlipRepository.create(userId, data, totalOdds, potentialWin)
+    const betSlip = await this.betSlipRepository.create(userId, data, totalOdds, potentialPayout)
 
     // Crear las apuestas individuales
     await this.betSlipRepository.createBets(betSlip.id, betsData)
@@ -197,7 +197,7 @@ export class BettingService {
 
     let betSlipStatus: 'won' | 'lost' | 'cancelled'
 
-    if (betSlip.type === 'parlay') {
+    if (betSlip.type === 'multiple') {
       // En parlay, todas las apuestas deben ganar
       const hasLostBet = bets.some((bet) => bet.result === 'lost')
       const hasCancelledBet = bets.some((bet) => bet.result === 'cancelled')
@@ -222,7 +222,7 @@ export class BettingService {
     if (betSlipStatus === 'won') {
       const user = await this.userRepository.findById(betSlip.userId)
       if (user) {
-        const newBalance = user.balance + betSlip.potentialWin
+        const newBalance = user.balance + betSlip.potentialPayout
         await this.userRepository.updateBalance(user.id, newBalance)
       }
     }

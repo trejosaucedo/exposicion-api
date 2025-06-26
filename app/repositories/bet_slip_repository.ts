@@ -27,13 +27,13 @@ export class BetSlipRepository {
     userId: number,
     data: CreateBetSlipDto,
     totalOdds: number,
-    potentialWin: number
+    potentialPayout: number
   ): Promise<BetSlip> {
     return await BetSlip.create({
       userId,
       totalStake: data.totalStake,
       totalOdds,
-      potentialWin,
+      potentialPayout,
       type: data.type,
       status: 'pending',
     })

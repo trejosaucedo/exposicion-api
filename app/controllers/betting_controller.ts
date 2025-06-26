@@ -6,7 +6,7 @@ import {
   finishMatchValidator,
 } from '#dtos/betting_dto'
 
-export class BettingController {
+export default class BettingController {
   private bettingService: BettingService
 
   constructor() {
@@ -268,12 +268,13 @@ export class BettingController {
 
       const betSlip = await this.bettingService.createBetSlip(user.id, payload)
 
+
       const formattedBetSlip = {
         id: betSlip.id,
         userId: betSlip.userId,
         totalStake: betSlip.totalStake,
         totalOdds: betSlip.totalOdds,
-        potentialWin: betSlip.potentialWin,
+        potentialPayout: betSlip.potentialPayout,
         status: betSlip.status,
         type: betSlip.type,
         createdAt: betSlip.createdAt.toISO(),
@@ -324,7 +325,7 @@ export class BettingController {
         userId: betSlip.userId,
         totalStake: betSlip.totalStake,
         totalOdds: betSlip.totalOdds,
-        potentialWin: betSlip.potentialWin,
+        potentialPayout: betSlip.potentialPayout,
         status: betSlip.status,
         type: betSlip.type,
         createdAt: betSlip.createdAt.toISO(),
@@ -389,7 +390,7 @@ export class BettingController {
         userId: betSlip.userId,
         totalStake: betSlip.totalStake,
         totalOdds: betSlip.totalOdds,
-        potentialWin: betSlip.potentialWin,
+        potentialPayout: betSlip.potentialPayout,
         status: betSlip.status,
         type: betSlip.type,
         createdAt: betSlip.createdAt.toISO(),

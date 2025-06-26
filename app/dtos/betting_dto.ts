@@ -23,7 +23,13 @@ export const createMatchValidator = vine.compile(
     homeTeam: vine.string().trim().minLength(2).maxLength(100),
     awayTeam: vine.string().trim().minLength(2).maxLength(100),
     competition: vine.string().trim().minLength(2).maxLength(100),
-    matchDate: vine.date(),
+    matchDate: vine.string().transform((value) => {
+      const date = new Date(value)
+      if (Number.isNaN(date.getTime())) {
+        throw new Error('Invalid date format')
+      }
+      return date
+    }),
     odds1: vine.number().min(1.01).max(50),
     oddsX: vine.number().min(1.01).max(50),
     odds2: vine.number().min(1.01).max(50),
@@ -60,7 +66,7 @@ export const betValidator = vine.compile(
 export const createBetSlipValidator = vine.compile(
   vine.object({
     totalStake: vine.number().min(1).max(10000),
-    type: vine.enum(['single', 'parlay']),
+    type: vine.enum(['single', 'multiple']),
     bets: vine.array(betSchema).minLength(1).maxLength(20),
   })
 )
@@ -99,7 +105,7 @@ export interface BetDto {
 
 export interface CreateBetSlipDto {
   totalStake: number
-  type: 'single' | 'parlay'
+  type: 'single' | 'multiple'
   bets: BetDto[]
 }
 
@@ -160,7 +166,7 @@ export interface BetSlipResponse {
   userId: number
   totalStake: number
   totalOdds: number
-  potentialWin: number
+  potentialPayout: number
   status: string
   type: string
   createdAt: string
