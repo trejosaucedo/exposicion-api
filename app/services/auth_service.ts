@@ -2,7 +2,6 @@ import { UserRepository } from '#repositories/user_repository'
 import { RegisterDto, LoginDto, AuthResponse } from '#dtos/auth_dto'
 import hash from '@adonisjs/core/services/hash'
 import User from '#models/user'
-import { HttpContext } from '@adonisjs/core/http'
 
 export class AuthService {
   private userRepository: UserRepository
@@ -70,13 +69,8 @@ export class AuthService {
     }
   }
 
-  async logout({ auth, response }: HttpContext) {
-    const user = auth.user!
-    const token = auth.user!.currentAccessToken
-
-    await User.accessTokens.delete(user, token.identifier)
-
-    return response.ok({ message: 'Logged out successfully' })
+  async logout(user: User, currentToken: any): Promise<void> {
+    await User.accessTokens.delete(user, currentToken.identifier)
   }
 
   async me(userId: number): Promise<AuthResponse['user']> {

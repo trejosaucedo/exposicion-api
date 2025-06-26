@@ -17,13 +17,13 @@ export default class AuthController {
       return response.status(201).json({
         success: true,
         message: 'User registered successfully',
-        data: result
+        data: result,
       })
     } catch (error) {
       return response.status(400).json({
         success: false,
         message: error.message,
-        data: null
+        data: null,
       })
     }
   }
@@ -36,13 +36,13 @@ export default class AuthController {
       return response.status(200).json({
         success: true,
         message: 'Login successful',
-        data: result
+        data: result,
       })
     } catch (error) {
       return response.status(401).json({
         success: false,
         message: error.message,
-        data: null
+        data: null,
       })
     }
   }
@@ -50,18 +50,24 @@ export default class AuthController {
   async logout({ auth, response }: HttpContext) {
     try {
       const user = auth.getUserOrFail()
-      await this.authService.logout(user.id)
+      const currentToken = auth.user?.currentAccessToken
+
+      if (!currentToken) {
+        throw new Error('No active session found')
+      }
+
+      await this.authService.logout(user, currentToken)
 
       return response.status(200).json({
         success: true,
         message: 'Logout successful',
-        data: null
+        data: null,
       })
     } catch (error) {
       return response.status(400).json({
         success: false,
         message: error.message,
-        data: null
+        data: null,
       })
     }
   }
@@ -74,13 +80,13 @@ export default class AuthController {
       return response.status(200).json({
         success: true,
         message: 'User data retrieved successfully',
-        data: result
+        data: result,
       })
     } catch (error) {
       return response.status(400).json({
         success: false,
         message: error.message,
-        data: null
+        data: null,
       })
     }
   }

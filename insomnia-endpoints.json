@@ -1,0 +1,214 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-06-25T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_01_health",
+      "parentId": "fld_auth_api",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "url": "{{ _.base_url }}/api/health",
+      "name": "Health Check",
+      "description": "Verificar estado de la API",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1687680000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "_type": "request"
+    },
+    {
+      "_id": "req_02_register",
+      "parentId": "fld_auth_public",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "url": "{{ _.base_url }}/api/auth/register",
+      "name": "Register User",
+      "description": "Registrar un nuevo usuario",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"usuario@ejemplo.com\",\n  \"fullName\": \"Usuario de Prueba\",\n  \"password\": \"password123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1687679000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "_type": "request"
+    },
+    {
+      "_id": "req_03_login",
+      "parentId": "fld_auth_public",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "Login User",
+      "description": "Iniciar sesión de usuario",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"usuario@ejemplo.com\",\n  \"password\": \"password123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1687678000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "_type": "request"
+    },
+    {
+      "_id": "req_04_me",
+      "parentId": "fld_auth_protected",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "url": "{{ _.base_url }}/api/auth/me",
+      "name": "Get User Profile",
+      "description": "Obtener perfil del usuario autenticado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1687677000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "_type": "request"
+    },
+    {
+      "_id": "req_05_logout",
+      "parentId": "fld_auth_protected",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "url": "{{ _.base_url }}/api/auth/logout",
+      "name": "Logout User",
+      "description": "Cerrar sesión del usuario",
+      "method": "POST",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1687676000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "_type": "request"
+    },
+    {
+      "_id": "fld_auth_api",
+      "parentId": "wrk_auth_workspace",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "name": "Auth API",
+      "description": "API de autenticación con AdonisJS",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1687680000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_auth_public",
+      "parentId": "fld_auth_api",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "name": "Public Routes",
+      "description": "Rutas públicas de autenticación",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1687679000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_auth_protected",
+      "parentId": "fld_auth_api",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "name": "Protected Routes",
+      "description": "Rutas protegidas que requieren autenticación",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1687678000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_auth_workspace",
+      "parentId": null,
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "name": "Auth API Workspace",
+      "description": "Workspace para API de autenticación",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_auth_workspace",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3333",
+        "auth_token": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "auth_token"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1687680000000,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_cookies",
+      "parentId": "wrk_auth_workspace",
+      "modified": 1687680000000,
+      "created": 1687680000000,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}
