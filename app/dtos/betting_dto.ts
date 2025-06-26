@@ -143,6 +143,18 @@ export interface MatchResponse {
   }
 }
 
+export const balanceValidator = vine.compile(
+  vine.object({
+    amount: vine.number().min(0.01).max(100000),
+  })
+)
+
+export const updateBalanceValidator = vine.compile(
+  vine.object({
+    balance: vine.number().min(0).max(1000000),
+  })
+)
+
 export interface BetSlipResponse {
   id: number
   userId: number
